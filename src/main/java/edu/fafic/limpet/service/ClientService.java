@@ -4,6 +4,9 @@ import edu.fafic.limpet.exception.NotFoundException;
 import edu.fafic.limpet.model.Client;
 import edu.fafic.limpet.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class ClientService {
+public class ClientService implements UserDetailsService {
 
     private final ClientRepository clientRepository;
 
@@ -30,5 +33,11 @@ public class ClientService {
 
     public void delete(UUID id) {
         clientRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return clientRepository.findByEmail(username)
+                .orElseThrow(() -> new NotFoundException("Client not found"));
     }
 }
