@@ -38,6 +38,6 @@ public class ClientService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return clientRepository.findByEmail(username)
-                .orElseThrow(() -> new NotFoundException("Client not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("Client not found"));
     }
 }
