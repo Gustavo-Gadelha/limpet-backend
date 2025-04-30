@@ -32,19 +32,18 @@ public class ClientController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientDTO> findById(@PathVariable UUID id) {
-        ClientDTO client = clientMapper.toDTO(clientService.findById(id));
-        return ResponseEntity.ok(client);
+        Client client = clientService.findById(id);
+        return ResponseEntity.ok(clientMapper.toDTO(client));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDTO> update(@PathVariable UUID id, @Valid @RequestBody ClientDTO clientDTO) {
         Client current = clientService.findById(id);
         Client updated = clientMapper.toEntity(clientDTO);
-
         updated.setId(current.getId());
-        ClientDTO saved = clientMapper.toDTO(clientService.save(updated));
 
-        return ResponseEntity.ok(saved);
+        Client saved = clientService.save(updated);
+        return ResponseEntity.ok(clientMapper.toDTO(saved));
     }
 
     @DeleteMapping("/{id}")
