@@ -25,7 +25,7 @@ public class Appointment {
     private Date date;
 
     @Column(nullable = true)
-    private int remarks;
+    private String remarks;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pet_id")
