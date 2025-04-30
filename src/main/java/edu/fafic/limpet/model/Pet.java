@@ -1,6 +1,5 @@
 package edu.fafic.limpet.model;
 
-import edu.fafic.limpet.enums.Species;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,16 +19,6 @@ public class Pet {
 
     @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Species species;
-
-    @Column(nullable = false)
-    private int weight;
-
-    @Column(nullable = true)
-    private int remarks;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "owner_id")

@@ -11,6 +11,7 @@ public class AppointmentDTO {
     private UUID id;
     private AppointmentStatus status;
     private Date date;
+    private String remarks;
     private UUID petId;
     private UUID clientId;
 }

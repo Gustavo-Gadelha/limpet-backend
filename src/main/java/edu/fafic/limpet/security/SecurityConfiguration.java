@@ -26,7 +26,7 @@ public class SecurityConfiguration {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/client/**").hasAuthority("ROLE_CLIENT")
+                        .requestMatchers("/clients/**").hasAuthority("ROLE_CLIENT")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtSecurityFilter, UsernamePasswordAuthenticationFilter.class)

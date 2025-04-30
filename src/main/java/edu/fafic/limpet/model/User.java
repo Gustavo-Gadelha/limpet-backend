@@ -1,7 +1,10 @@
 package edu.fafic.limpet.model;
 
 import edu.fafic.limpet.enums.Authority;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -10,7 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -33,24 +36,18 @@ public abstract class User implements UserDetails {
     @Column(nullable = false)
     private boolean isActive = true;
 
+    @Column(nullable = false)
+    private Authority authority;
+
     @CreationTimestamp
     private Date createdAt;
 
     @UpdateTimestamp
     private Date updatedAt;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private List<Authority> authorities;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.authorities.stream()
-                .map(Authority::toGrantedAuthority)
-                .toList();
+        return Set.of(authority.toGrantedAuthority());
     }
 
     @Override
@@ -62,5 +59,4 @@ public abstract class User implements UserDetails {
     public boolean isEnabled() {
         return this.isActive;
     }
-
 }

@@ -3,7 +3,10 @@ package edu.fafic.limpet.repository;
 import edu.fafic.limpet.model.Pet;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PetRepository extends JpaRepository<Pet, UUID> {
+
+    Optional<Pet> findByName(String name);
 }

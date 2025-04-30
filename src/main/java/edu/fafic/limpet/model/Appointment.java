@@ -24,6 +24,9 @@ public class Appointment {
     @Column(nullable = false)
     private Date date;
 
+    @Column(nullable = true)
+    private int remarks;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pet_id")
     private Pet pet;
