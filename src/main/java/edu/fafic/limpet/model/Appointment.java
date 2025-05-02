@@ -1,11 +1,15 @@
 package edu.fafic.limpet.model;
 
-import edu.fafic.limpet.enums.AppointmentStatus;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -18,22 +22,28 @@ public class Appointment {
     private UUID id;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+    private String clientName;
 
     @Column(nullable = false)
-    private Date date;
+    private String petName;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private String ddd;
+
+    @Column(nullable = false)
+    private String phoneNumber;
+
+    @Column(nullable = false)
+    private LocalDate date;
+
+    @Column(nullable = false)
+    private LocalTime time;
 
     @Column(nullable = true)
     private String remarks;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "pet_id")
-    private Pet pet;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "client_id")
-    private Client client;
 
     @CreationTimestamp
     private Date createdAt;
