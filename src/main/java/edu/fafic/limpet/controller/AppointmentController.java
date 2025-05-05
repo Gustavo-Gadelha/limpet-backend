@@ -1,6 +1,8 @@
 package edu.fafic.limpet.controller;
 
 import edu.fafic.limpet.dto.AppointmentDTO;
+import edu.fafic.limpet.email.EmailFormatter;
+import edu.fafic.limpet.email.EmailService;
 import edu.fafic.limpet.mapper.AppointmentMapper;
 import edu.fafic.limpet.model.Appointment;
 import edu.fafic.limpet.service.AppointmentService;
@@ -20,6 +22,7 @@ public class AppointmentController {
 
     private final AppointmentService appointmentService;
     private final AppointmentMapper appointmentMapper;
+    private final EmailService emailService;
 
     @GetMapping
     public ResponseEntity<List<AppointmentDTO>> findAll() {
@@ -39,7 +42,13 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<AppointmentDTO> create(@Valid @RequestBody AppointmentDTO appointmentDTO) {
         Appointment saved = appointmentService.save(appointmentMapper.toEntity(appointmentDTO));
-        return ResponseEntity.ok(appointmentMapper.toDTO(saved));
+        AppointmentDTO dto = appointmentMapper.toDTO(saved);
+
+        String subject = "Confirmação de Agendamento";
+        String body = EmailFormatter.confirmationEmail(dto);
+        emailService.send(saved.getEmail(), subject, body);
+
+        return ResponseEntity.ok(dto);
     }
 
     @PutMapping("/{id}")
